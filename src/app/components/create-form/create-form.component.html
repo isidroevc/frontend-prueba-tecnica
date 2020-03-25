@@ -1,0 +1,75 @@
+<div class="container form-container">
+    <form #f="ngForm" (ngSubmit)="onSubmit(f)" ngNativeValidate>
+        <div class="row form-row">
+            <div class="col">
+                <label for="name">Name*</label>
+                <input [(ngModel)]="candidate.name" name="name" value="{{candidate.name}}" type="text" max="80"  class="form-control" placeholder="Name" required>
+            </div>
+            <div class="col">
+                <label for="last_name">Last Name*</label>
+                <input [(ngModel)]="candidate.last_name" value="{{candidate.last_name}}" name = "last_name" type="text" max="80"  class="form-control" placeholder="Last Name" required>
+            </div>
+        </div>
+        <div class="row form-row">
+            <div class="col">
+                <label for="age">Age*</label>
+                <input [(ngModel)]="candidate.age" value="{{candidate.age}}" ngModel type="number" min="1" max="130" name="age" class="form-control" placeholder="Age" required>
+            </div>
+            <div class="col">
+                <label for="current_job">Current Job</label>
+                <input [(ngModel)]="candidate.current_job" value="{{candidate.current_job}}" type="text" max="100"name="current_job" class="form-control" placeholder="Current Job">
+            </div>
+            <div class="col">
+                <label for="email">Email*</label>
+                <input [(ngModel)]="candidate.email" value="{{candidate.email}}" max="80" type="email" name="email" class="form-control" placeholder="Email" required>
+            </div>
+        </div>
+        <div class="row form-row">
+            <div class="col">
+                <label for="phone">Phone number*</label>
+                <input [(ngModel)]="candidate.phone" value="{{candidate.phone}}" max="10"type="text" name="phone" class="form-control" placeholder="Phone number" required>
+            </div>
+            <div class="col">
+                <label for="company">Company</label>
+                <input [(ngModel)]="candidate.company" value="{{candidate.company}}" type="text" name="company" class="form-control" placeholder="Company">
+            </div>
+            <div class="col">
+                <label for="Country">Country*</label>
+                <select [(ngModel)]="candidate.country_id" value="{{candidate.country_id}}" name="country" class="form-control" required>
+                    <option value="1">México</option>
+                </select>
+            </div>
+        </div>
+        <div class="row form-row">
+            <div class="col">
+                <label for="province">Province*</label>
+                <input [(ngModel)]="candidate.province" value="{{candidate.province}}" max="100" type="text" name="province" class="form-control" placeholder="Province" required>
+            </div>
+            <div class="col">
+                <label for="City">City*</label>
+                <input [(ngModel)]="candidate.city" value="{{candidate.city}}" max="100" type="text" name="city" class="form-control" placeholder="City"required>
+            </div>
+            <div class="col">
+                <label for="files">Attachments</label>
+                <input  max="100" type="file" multiple (change)="getFiles($event)" name="city" class="form-control" placeholder="City"required>
+            </div>
+        </div>
+        <div class="row form-row">
+            <div class="col-md-12">
+                <input type="submit" class="btn btn-primary col-md-12"  vale="Submit">
+            </div>
+        </div>
+    </form>
+    <!--
+      'country_id'--,
+      'name',--
+      'last_name' --,
+      'age' --,
+      'current_job' --,
+      'email' --,
+      'phone' -- ,
+      'company' -- ,
+      'province' --,
+      'city'--
+      -->
+</div>
