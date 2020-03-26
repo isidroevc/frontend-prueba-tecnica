@@ -1,0 +1,88 @@
+<app-admin-nav></app-admin-nav>
+<div class="container">
+  <div class="sec-container">
+    <form #f="ngForm" (ngSubmit)="onSubmit(f)" action="">
+      <div class="row">
+        <div class="col-md-6">
+          <input type="text" [(ngModel)]="param" placeholder="search.." name="param" id="" class="form-control">
+        </div>
+        <div class="col-md-3">
+          <select class="form-control" name="country_id"[(ngModel)]="country_id">
+            <option value="0">All</option>
+            <option *ngFor="let country of countries" value="{{country.id}}">{{country.name}}</option>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <input type="submit" value="Search" class="btn btn-primary form-control">
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="sec-container">
+    <div class="row page-controls-container">
+      <div class="col-md-6">
+        <p>{{total}} results, page {{page}} of {{lastPage}}</p>
+      </div>
+      <div class="col-md-6 page-buttons-container">
+        <button (click)="goToFirstPage()"class="btn btn-primary page-control">
+          |<< 
+        </button>
+        <button (click)="goOnePageBack()" class="btn btn-primary page-control">
+          < 
+        </button>
+        <button (click)="goOnePageForward()" class="btn btn-primary page-control">
+          >
+        </button>
+        <button (click)="goToLastPage()"class="btn btn-primary page-control">
+          >>|
+        </button>
+      </div>
+    </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Id</th>
+          <th scope="col">Name</th>
+          <th scope="col">Last Name</th>
+          <th scope="col">Email</th>
+          <th scope="col">Phone</th>
+          <th scope="col">Country</th>
+          <th scope="col">Edit</th>
+          <th scope="col">Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let candidate of candidates">
+          <td>
+            {{candidate.id}}
+          </td>
+          <td>
+            {{candidate.name}}
+          </td>
+          <td>
+            {{candidate.last_name}}
+          </td>
+          <td>
+            {{candidate.email}}
+          </td>
+          <td>
+            {{candidate.phone}}
+          </td>
+          <td>
+            {{candidate.country.name}}
+          </td>
+          <td>
+              <button class="btn btn-warning">
+                Edit
+              </button>
+          </td>
+          <td>
+            <button class="btn btn-danger">
+              Delete
+            </button>
+        </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

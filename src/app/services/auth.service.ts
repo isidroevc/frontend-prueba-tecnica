@@ -9,6 +9,6 @@ export class AuthService {
   constructor(private sessionStorageService: SessionStorageService) { }
 
   isAuthenticated(): boolean {
-    return this.sessionStorageService.getSessionInfo() != null;
+    return this.sessionStorageService.getSessionInfo() !== null;
   }
 }

@@ -1,12 +1,15 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http'
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http'
 import { Candidate } from '../models/Candidate';
+import { SessionStorageService } from './session-storage.service';
+import { SessionInfo } from '../models/SessionInfo';
+import { PaginationResult } from '../models/PaginationResult';
 @Injectable({
   providedIn: 'root'
 })
 export class CandidateServiceService {
   baseUrl:string = 'http://localhost:3000';
-  constructor(private httpClient:HttpClient) { }
+  constructor(private httpClient:HttpClient, private sessionStorageService:SessionStorageService) { }
 
   private getFormData(candidate:Candidate, files:File[]) {
     const keys = Object.keys(candidate);
@@ -24,6 +27,22 @@ export class CandidateServiceService {
   register(candidate:Candidate, files:File[]): Promise<Candidate> {
     const formData = this.getFormData(candidate, files);
     return this.httpClient.post<Candidate>(`${this.baseUrl}/candidates/register`, formData).toPromise<Candidate>();
+  }
+
+  get(country_id:number, param:string, page:number): Promise<PaginationResult> {
+    const {accessToken} = this.sessionStorageService.getSessionInfo();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${accessToken.token}`
+    });
+    let params = new HttpParams();
+    params = params.set('page', page.toString());
+    if (country_id !== 0)
+      params.set('country_id', country_id.toString());
+    params = params.set('param', param);
+    console.log(params);
+    return this.httpClient
+      .get<PaginationResult>(`${this.baseUrl}/candidates/`, { headers, params })
+      .toPromise<PaginationResult>();
   }
   
   

@@ -1,4 +1,5 @@
 import { Attachment }  from './Attachment'
+import { Country } from './Country'
 export class Candidate {
   id:number
   country_id:number = 1
@@ -11,7 +12,8 @@ export class Candidate {
   company?:string
   province:string
   city?:string
-  attachment: Attachment[]
+  attachments: Attachment[]
+  country: Country
   created_at?:Date
   updated_at?:Date
 }

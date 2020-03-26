@@ -15,6 +15,7 @@ import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { AdminHomePageComponent } from './pages/admin-home-page/admin-home-page.component';
 import { AuthGuard } from './guards/auth-guard';
 import { AdminNavComponent } from './components/admin-nav/admin-nav.component';
+import { CandidateListPageComponent } from './pages/candidate-list-page/candidate-list-page.component';
 const appRoutes: Routes = [
   {path: 'register', component: RegisterFormComponent},
   {path: 'admin/login', component: LoginPageComponent},
@@ -22,7 +23,8 @@ const appRoutes: Routes = [
     path: 'admin',
     canActivate: [AuthGuard],
     children: [
-      {path: '', component: AdminHomePageComponent} 
+      {path: '', component: AdminHomePageComponent},
+      {path: 'candidates', component: CandidateListPageComponent} 
     ]
   }
 ];
@@ -34,7 +36,9 @@ const appRoutes: Routes = [
     NavbarComponent,
     CreateFormComponent,
     LoginPageComponent,
-    AdminNavComponent
+    AdminNavComponent,
+    AdminHomePageComponent,
+    CandidateListPageComponent
   ],
   imports: [
     RouterModule.forRoot(

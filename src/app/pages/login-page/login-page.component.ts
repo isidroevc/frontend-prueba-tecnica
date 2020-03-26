@@ -25,6 +25,7 @@ export class LoginPageComponent implements OnInit {
       this.router.navigate(['admin']);
     } catch(ex) {
       console.log(ex);
+      alert('Failed login');
     }
   }
 
