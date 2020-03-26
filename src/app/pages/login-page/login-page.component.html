@@ -1,0 +1,22 @@
+
+<div class="container form-container">
+  <div class="row">
+    <h1>Login</h1>
+  </div>
+  <form form #f="ngForm" (ngSubmit)="onSubmit(f)" ngNativeValidate>
+    <div class="row form-row">
+      <label for="email">Email</label>
+      <input [(ngModel)]="email" name="email" type="email" max="80" class="form-control" placeholder="example@mail.com"
+        required>
+
+    </div>
+    <div class="row form-row">
+      <label for="email">Password</label>
+      <input [(ngModel)]="password" name="password" type="password" max="80" class="form-control" placeholder="password"
+        required>
+    </div>
+    <div class="row form-row">
+      <input class="btn btn-primary"type="submit" value="Login">
+    </div>
+  </form>
+</div>
