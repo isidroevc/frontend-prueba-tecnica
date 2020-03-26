@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { CountryService } from 'src/app/services/country.service';
 import { Country } from 'src/app/models/Country';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
 import { ConfirmDeleteFormComponent } from 'src/app/components/confirm-delete-form/confirm-delete-form.component';
 
 @Component({
@@ -21,7 +22,7 @@ export class CandidateListPageComponent implements OnInit {
   lastPage:number = 1;
   country_id:number = 0;
   total:number;
-  constructor(public modalService: NgbModal, private countryService:CountryService, private router:Router, private candidateService:CandidateServiceService) { }
+  constructor(private toastr:ToastrService, private modalService: NgbModal, private countryService:CountryService, private router:Router, private candidateService:CandidateServiceService) { }
 
   ngOnInit(): void {
     this.loadData().then();
@@ -44,7 +45,7 @@ export class CandidateListPageComponent implements OnInit {
       this.lastPage = paginationResult.lastPage;
       this.total = paginationResult.total;
     } catch(ex) {
-      alert('An error was ocurred while loading data!');
+      this.toastr.error('Error loading data', 'Error');
     }    
   }
 
@@ -74,12 +75,8 @@ export class CandidateListPageComponent implements OnInit {
 
   }
 
-  navigateToDelete(id) {
-    this.router.navigate([`/admmin/candidates/${id}/delete`]);
-  }
-
   navigateToEdit(id) {
-    this.router.navigate([`/admmin/candidates/${id}/edit`]);
+    this.router.navigate([`/admin/candidates/${id}`]);
   }
 
   async openDeleteModal(candidate:Candidate) {
@@ -90,10 +87,11 @@ export class CandidateListPageComponent implements OnInit {
       if (result) {
         await this.candidateService.delete(candidate.id);
         await this.loadData();
+        this.toastr.success('Data deleted successfully!', 'Success');
       }
-      alert('Data deleted succesfully');
+      
     } catch(ex) {
-      alert('Could not perform operation');
+      this.toastr.success('Error deleting data', 'Error');
     }
   }
 

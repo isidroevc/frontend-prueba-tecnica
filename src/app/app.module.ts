@@ -17,7 +17,11 @@ import { AuthGuard } from './guards/auth-guard';
 import { AdminNavComponent } from './components/admin-nav/admin-nav.component';
 import { CandidateListPageComponent } from './pages/candidate-list-page/candidate-list-page.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { ToastrModule } from 'ngx-toastr';
 import { ConfirmDeleteFormComponent } from './components/confirm-delete-form/confirm-delete-form.component';
+import { CommonModule } from '@angular/common';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { EditCandidatePageComponent } from './pages/edit-candidate-page/edit-candidate-page.component';
 const appRoutes: Routes = [
   {path: 'register', component: RegisterFormComponent},
   {path: 'admin/login', component: LoginPageComponent},
@@ -26,7 +30,8 @@ const appRoutes: Routes = [
     canActivate: [AuthGuard],
     children: [
       {path: '', component: AdminHomePageComponent},
-      {path: 'candidates', component: CandidateListPageComponent} 
+      {path: 'candidates', component: CandidateListPageComponent},
+      {path: 'candidates/:id', component: EditCandidatePageComponent}
     ]
   }
 ];
@@ -41,7 +46,8 @@ const appRoutes: Routes = [
     AdminNavComponent,
     AdminHomePageComponent,
     CandidateListPageComponent,
-    ConfirmDeleteFormComponent
+    ConfirmDeleteFormComponent,
+    EditCandidatePageComponent
   ],
   imports: [
     NgbModule,
@@ -52,7 +58,10 @@ const appRoutes: Routes = [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    CommonModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent]

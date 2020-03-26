@@ -1,17 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Candidate } from '../../models/Candidate';
 import { CandidateServiceService } from 'src/app/services/candidate-service.service';
-import { HttpErrorResponse } from '@angular/common/http';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-create-form',
   templateUrl: './create-form.component.html',
   styleUrls: ['./create-form.component.scss']
 })
 export class CreateFormComponent implements OnInit {
-  candidate:Candidate = new Candidate();
-  action:string;
+  @Input() candidate:Candidate = new Candidate();
+  @Input() action:string;
 
-  constructor(private candidateService: CandidateServiceService) {
+  constructor(private toastr:ToastrService,  private candidateService: CandidateServiceService) {
     
    }
   private files: File[];
@@ -21,15 +21,15 @@ export class CreateFormComponent implements OnInit {
    async onSubmit(form) {
     if (this.action === 'register') {
       await this.saveNewCandidate()
-    } else if (this.action === 'update'){
-    
+    } else if (this.action === 'edit'){
+      await this.updateCandidate();
     }
     console.log('candidate: ', this.candidate);
   }
 
   getFiles(event) {
     if (!this.validateFiles(event.target.files)) {
-      alert(`Only jpg, png and pdf files are allowed`);
+      this.toastr.warning(`Only jpg, png and pdf files are allowed`, 'Bad file formats provided');
       event.target.value = null;
     } else {
       this.files = event.target.files;
@@ -43,7 +43,9 @@ export class CreateFormComponent implements OnInit {
       'pdf'
     ];
     for(let i = 0, c = files.length; i < c; i++) {
-      if (!validExtensions.includes(this.getFileExtension(files[0].name.toLocaleLowerCase())))
+      const extension = this.getFileExtension(files[0].name.toLocaleLowerCase());
+      console.log('ext', extension);
+      if (!validExtensions.includes(extension))
         return false;
     }
     return true;
@@ -52,7 +54,7 @@ export class CreateFormComponent implements OnInit {
   private getFileExtension(filename) {
     let extension:string;
     let parts:string = filename.split('.');
-    if (parts.length) {
+    if (parts.length === 0) {
       return '';
     }
     extension = parts[parts.length - 1];
@@ -63,8 +65,19 @@ export class CreateFormComponent implements OnInit {
     try {
       this.candidate = await this.candidateService.register(this.candidate, this.files);
     } catch(ex) {
-      alert('There was a problem while saving your data, please try again later.')
+      this.toastr.error('There was a problem while saving your data, please try again later.', 'Error');
     }
+  }
+
+  private async updateCandidate() {
+    try {
+      console.log('tehre');
+      this.candidate = await this.candidateService.update(this.candidate, this.files);
+    } catch(ex) {
+      console.log(ex);
+      this.toastr.error('There was a problem while saving your data, please try again later.', 'Error');
+    }
+    
   }
 
 }

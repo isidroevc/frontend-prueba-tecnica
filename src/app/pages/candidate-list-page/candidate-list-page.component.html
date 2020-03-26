@@ -72,7 +72,7 @@
             {{candidate.country.name}}
           </td>
           <td>
-              <button class="btn btn-warning">
+              <button (click)="navigateToEdit(candidate.id)" class="btn btn-warning">
                 Edit
               </button>
           </td>

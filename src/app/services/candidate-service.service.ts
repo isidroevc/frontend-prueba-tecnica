@@ -17,9 +17,10 @@ export class CandidateServiceService {
     keys.forEach(key => {
       formData.append(key, candidate[key]);
     });
-    console.log(files);
-    for(let i = 0, c = files.length; i < c; i++) {
-      formData.append('files[]', files[i]);
+    if (files) {
+      for(let i = 0, c = files.length; i < c; i++) {
+        formData.append('files[]', files[i]);
+      }
     }
     return formData;
   }
@@ -51,6 +52,23 @@ export class CandidateServiceService {
       'Authorization': `Bearer ${accessToken.token}`
     });
     return this.httpClient.delete(`${this.baseUrl}/candidates/${id}`, {headers}).toPromise();
+  }
+
+  findById(id:number): Promise<Candidate> {
+    const {accessToken} = this.sessionStorageService.getSessionInfo();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${accessToken.token}`
+    });
+    return this.httpClient.get<Candidate>(`${this.baseUrl}/candidates/${id}`, {headers}).toPromise<Candidate>();
+  }
+
+  update(candidate: Candidate, files: File[]): Promise<Candidate> {
+    const {accessToken} = this.sessionStorageService.getSessionInfo();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${accessToken.token}`
+    });
+    const formData = this.getFormData(candidate, files);
+    return this.httpClient.patch<Candidate>(`${this.baseUrl}/candidates/${candidate.id}`, formData, {headers}).toPromise();
   }
   
   
