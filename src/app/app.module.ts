@@ -16,6 +16,8 @@ import { AdminHomePageComponent } from './pages/admin-home-page/admin-home-page.
 import { AuthGuard } from './guards/auth-guard';
 import { AdminNavComponent } from './components/admin-nav/admin-nav.component';
 import { CandidateListPageComponent } from './pages/candidate-list-page/candidate-list-page.component';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { ConfirmDeleteFormComponent } from './components/confirm-delete-form/confirm-delete-form.component';
 const appRoutes: Routes = [
   {path: 'register', component: RegisterFormComponent},
   {path: 'admin/login', component: LoginPageComponent},
@@ -38,9 +40,11 @@ const appRoutes: Routes = [
     LoginPageComponent,
     AdminNavComponent,
     AdminHomePageComponent,
-    CandidateListPageComponent
+    CandidateListPageComponent,
+    ConfirmDeleteFormComponent
   ],
   imports: [
+    NgbModule,
     RouterModule.forRoot(
       appRoutes,
       { enableTracing: true } // <-- debugging purposes only

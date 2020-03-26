@@ -44,6 +44,14 @@ export class CandidateServiceService {
       .get<PaginationResult>(`${this.baseUrl}/candidates/`, { headers, params })
       .toPromise<PaginationResult>();
   }
+
+  delete(id:number): Promise<any> {
+    const {accessToken} = this.sessionStorageService.getSessionInfo();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${accessToken.token}`
+    });
+    return this.httpClient.delete(`${this.baseUrl}/candidates/${id}`, {headers}).toPromise();
+  }
   
   
 }

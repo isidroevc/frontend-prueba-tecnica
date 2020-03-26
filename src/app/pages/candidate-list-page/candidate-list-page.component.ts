@@ -5,6 +5,8 @@ import { PaginationResult } from 'src/app/models/PaginationResult';
 import { Router } from '@angular/router';
 import { CountryService } from 'src/app/services/country.service';
 import { Country } from 'src/app/models/Country';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ConfirmDeleteFormComponent } from 'src/app/components/confirm-delete-form/confirm-delete-form.component';
 
 @Component({
   selector: 'app-candidate-list-page',
@@ -19,7 +21,7 @@ export class CandidateListPageComponent implements OnInit {
   lastPage:number = 1;
   country_id:number = 0;
   total:number;
-  constructor(private countryService:CountryService, private router:Router, private candidateService:CandidateServiceService) { }
+  constructor(public modalService: NgbModal, private countryService:CountryService, private router:Router, private candidateService:CandidateServiceService) { }
 
   ngOnInit(): void {
     this.loadData().then();
@@ -78,6 +80,21 @@ export class CandidateListPageComponent implements OnInit {
 
   navigateToEdit(id) {
     this.router.navigate([`/admmin/candidates/${id}/edit`]);
+  }
+
+  async openDeleteModal(candidate:Candidate) {
+    const modalRef = this.modalService.open(ConfirmDeleteFormComponent);
+    modalRef.componentInstance.message = `Are you sure you want to delete "${candidate.name} ${candidate.last_name}" info?`;
+    const result = await modalRef.result;
+    try {
+      if (result) {
+        await this.candidateService.delete(candidate.id);
+        await this.loadData();
+      }
+      alert('Data deleted succesfully');
+    } catch(ex) {
+      alert('Could not perform operation');
+    }
   }
 
 }
