@@ -4,6 +4,7 @@ import { UserService } from 'src/app/services/user.service';
 import { SessionInfo } from 'src/app/models/SessionInfo';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-login-page',
@@ -13,9 +14,13 @@ import { ToastrService } from 'ngx-toastr';
 export class LoginPageComponent implements OnInit {
   email:string;
   password:string;
-  constructor(private toastr:ToastrService, private router:Router, private userService:UserService, private sessionStorageService: SessionStorageService) { }
+  constructor(private authService:AuthService, private toastr:ToastrService, private router:Router, private userService:UserService, private sessionStorageService: SessionStorageService) { }
 
   ngOnInit(): void {
+    this.authService.isAuthenticated().then(result => {
+      if (result)
+        this.router.navigate(['/admin/']);
+    });
   }
 
   async onSubmit(form) {

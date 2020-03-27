@@ -2,6 +2,9 @@ import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef} 
 import { Candidate } from '../../models/Candidate';
 import { CandidateServiceService } from 'src/app/services/candidate-service.service';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
+import { Country } from 'src/app/models/Country';
+import { CountryService } from 'src/app/services/country.service';
 @Component({
   selector: 'app-create-form',
   templateUrl: './create-form.component.html',
@@ -11,13 +14,17 @@ export class CreateFormComponent implements OnInit {
   @Input() candidate:Candidate = new Candidate();
   @Input() action:string;
   @Output() dataChanged:EventEmitter<Candidate> = new EventEmitter();
-  @ViewChild('filesInput')
-  filesInput: ElementRef;
-  constructor(private toastr:ToastrService,  private candidateService: CandidateServiceService) {
+  @ViewChild('filesInput') filesInput: ElementRef;
+  countries:Country[];
+  constructor(private countryService:CountryService, private router:Router, private toastr:ToastrService,  private candidateService: CandidateServiceService) {
     
   }
   private files: File[];
   ngOnInit(): void {
+    this.countryService.get().then(
+      countries => this.countries = countries
+    );
+    
   }
 
    async onSubmit(form) {
@@ -66,6 +73,8 @@ export class CreateFormComponent implements OnInit {
   private async saveNewCandidate() {
     try {
       this.candidate = await this.candidateService.register(this.candidate, this.files);
+      this.toastr.success('Your information has been stored successfully!', 'Success');
+      window.location.reload();
     } catch(ex) {
       this.toastr.error('There was a problem while saving your data, please try again later.', 'Error');
     }

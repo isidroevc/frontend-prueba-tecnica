@@ -3,7 +3,7 @@
         <div class="row form-row">
             <div class="col">
                 <label for="name">Name*</label>
-                <input [(ngModel)]="candidate.name" name="name" value="{{candidate.name}}" type="text" max="80"  class="form-control" placeholder="Name" required>
+                <input [(ngModel)]="candidate.name"  name="name" value="{{candidate.name}}" type="text" max="80"  class="form-control" placeholder="Name" required>
             </div>
             <div class="col">
                 <label for="last_name">Last Name*</label>
@@ -13,7 +13,7 @@
         <div class="row form-row">
             <div class="col">
                 <label for="age">Age*</label>
-                <input [(ngModel)]="candidate.age" value="{{candidate.age}}" ngModel type="number" min="1" max="130" name="age" class="form-control" placeholder="Age" required>
+                <input [(ngModel)]="candidate.age" value="{{candidate.age}}" ngModel type="number" min="16" max="130" name="age" class="form-control" placeholder="Age" required>
             </div>
             <div class="col">
                 <label for="current_job">Current Job</label>
@@ -27,7 +27,7 @@
         <div class="row form-row">
             <div class="col">
                 <label for="phone">Phone number*</label>
-                <input [(ngModel)]="candidate.phone" value="{{candidate.phone}}" max="10"type="text" name="phone" class="form-control" placeholder="Phone number" required>
+                <input [(ngModel)]="candidate.phone" pattern="[0-9]{10}" value="{{candidate.phone}}" max="10"type="text" name="phone" class="form-control" placeholder="0123456789" required>
             </div>
             <div class="col">
                 <label for="company">Company</label>
@@ -35,8 +35,8 @@
             </div>
             <div class="col">
                 <label for="Country">Country*</label>
-                <select [(ngModel)]="candidate.country_id" value="{{candidate.country_id}}" name="country" class="form-control" required>
-                    <option value="1">México</option>
+                <select [(ngModel)]="candidate.country_id" name="country" class="form-control" required>
+                    <option *ngFor="let country of countries" value="{{country.id}}">{{country.name}}</option>
                 </select>
             </div>
         </div>

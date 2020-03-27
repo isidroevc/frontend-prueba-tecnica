@@ -27,4 +27,26 @@ export class UserService {
       .toPromise<User>();
   }
 
+  logout(): Promise<any> {
+    const {accessToken} = this.sessionStorageService.getSessionInfo();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${accessToken.token}`
+    });
+    console.log(headers);
+    return this.httpClient
+      .post<any>(`${this.baseUrl}/users/logout`, null, {headers})
+      .toPromise<any>();
+  }
+
+  checkLogin(): Promise<any> {
+    const {accessToken} = this.sessionStorageService.getSessionInfo();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${accessToken.token}`
+    });
+    console.log(headers);
+    return this.httpClient
+      .post<any>(`${this.baseUrl}/users/check-login`, null, {headers})
+      .toPromise<any>();
+  }
+
 }

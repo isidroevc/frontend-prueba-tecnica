@@ -33,7 +33,8 @@ const appRoutes: Routes = [
       {path: 'candidates', component: CandidateListPageComponent},
       {path: 'candidates/:id', component: EditCandidatePageComponent}
     ]
-  }
+  },
+  {path: '**', component: RegisterFormComponent}
 ];
 
 @NgModule({
