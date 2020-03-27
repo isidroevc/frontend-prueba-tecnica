@@ -1,5 +1,43 @@
 <app-admin-nav></app-admin-nav>
+<h2>General data</h2>
 <app-create-form
  [candidate]="candidate"
  [action]="'edit'"
+ (dataChanged)="onDataChanged($event)"
 ></app-create-form>
+<h2>Attachments</h2>
+<div class="container">
+  <div class="sec-container">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Filename</th>
+          <th scope="col">Size</th>
+          <th scope="col">Download</th>
+          <th scope="col">Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let attachment  of candidate.attachments">
+          <td>
+            {{attachment.filename}}
+          </td>
+          <td>
+            {{(attachment.size / (1024 * 1024)).toFixed(2)}}MB
+          </td>
+          <td>
+            <button (click)="download(attachment)"class="btn btn-primary">
+              Download
+            </button>
+        </td>
+          <td>
+            <button (click)="openDeleteModal(attachment)"class="btn btn-danger">
+              Delete
+            </button>
+        </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+

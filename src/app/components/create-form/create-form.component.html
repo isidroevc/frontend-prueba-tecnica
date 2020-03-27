@@ -51,8 +51,8 @@
             </div>
             <div class="col">
                 <label for="files">Attachments</label>
-                <input *ngIf="action === 'register'" max="100" type="file" multiple (change)="getFiles($event)" name="city" class="form-control" placeholder="City"required>
-                <input *ngIf="action === 'edit'" max="100" type="file" multiple (change)="getFiles($event)" name="city" class="form-control" placeholder="City">
+                <input #filesInput *ngIf="action === 'register'" max="100" type="file" multiple (change)="getFiles($event)" name="city" class="form-control" placeholder="City"required>
+                <input #filesInput *ngIf="action === 'edit'" max="100" type="file" multiple (change)="getFiles($event)" name="city" class="form-control" placeholder="City">
             </div>
         </div>
         <div class="row form-row">

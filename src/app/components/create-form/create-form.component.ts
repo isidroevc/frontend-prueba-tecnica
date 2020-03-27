@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef} from '@angular/core';
 import { Candidate } from '../../models/Candidate';
 import { CandidateServiceService } from 'src/app/services/candidate-service.service';
 import { ToastrService } from 'ngx-toastr';
@@ -10,10 +10,12 @@ import { ToastrService } from 'ngx-toastr';
 export class CreateFormComponent implements OnInit {
   @Input() candidate:Candidate = new Candidate();
   @Input() action:string;
-
+  @Output() dataChanged:EventEmitter<Candidate> = new EventEmitter();
+  @ViewChild('filesInput')
+  filesInput: ElementRef;
   constructor(private toastr:ToastrService,  private candidateService: CandidateServiceService) {
     
-   }
+  }
   private files: File[];
   ngOnInit(): void {
   }
@@ -71,8 +73,11 @@ export class CreateFormComponent implements OnInit {
 
   private async updateCandidate() {
     try {
-      console.log('tehre');
       this.candidate = await this.candidateService.update(this.candidate, this.files);
+      this.dataChanged.emit(this.candidate);
+      this.files = [];
+      this.filesInput.nativeElement.value = '';
+      this.toastr.success('Data updated successfully!', 'Success');
     } catch(ex) {
       console.log(ex);
       this.toastr.error('There was a problem while saving your data, please try again later.', 'Error');

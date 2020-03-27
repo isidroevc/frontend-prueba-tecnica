@@ -70,6 +70,26 @@ export class CandidateServiceService {
     const formData = this.getFormData(candidate, files);
     return this.httpClient.patch<Candidate>(`${this.baseUrl}/candidates/${candidate.id}`, formData, {headers}).toPromise();
   }
+
+  deleteAttachments(id:number, attachment_id:string): Promise<any> {
+    const {accessToken} = this.sessionStorageService.getSessionInfo();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${accessToken.token}`
+    });
+    return this.httpClient
+      .delete(`${this.baseUrl}/candidates/${id}/attachments/${attachment_id}`, {headers})
+      .toPromise();
+  }
+
+  downloadAttachment(id:string): Promise<Blob> {
+    const {accessToken} = this.sessionStorageService.getSessionInfo();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${accessToken.token}`
+    });
+    return this.httpClient
+      .get<Blob>(`${this.baseUrl}/attachments/${id}`, {headers, responseType: 'blob' as 'json'})
+      .toPromise<Blob>();
+  }
   
   
 }
